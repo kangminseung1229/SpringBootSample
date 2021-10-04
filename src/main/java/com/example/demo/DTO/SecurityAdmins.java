@@ -18,26 +18,27 @@ import lombok.Data;
  * SecurityAdmins
  */
 
- @Data
- @Entity
-public class SecurityAdmins {
+@Data
+@Entity
+public class securityAdmins {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
+
+    private String userid;
+    private String userpw;
     private boolean enabled;
 
 
 
     @ManyToMany
     @JoinTable(
-        name = "AdminsRole",
+        name = "AdminRoles",
         joinColumns = @JoinColumn(name = "admins_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
+        inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
-    List<SecurityRole> roles = new ArrayList<>(); //null point error    
+    List<securityRoles> roles = new ArrayList<>(); //null point error    
     
 }

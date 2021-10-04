@@ -2,7 +2,7 @@ package com.example.demo.RestController;
 
 import java.util.List;
 
-import com.example.demo.DTO.SecurityAdmins;
+import com.example.demo.DTO.securityAdmins;
 import com.example.demo.Repository.saRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class RestAuth {
     private saRepository saRepo;
 
     @GetMapping("/list")
-    public List<SecurityAdmins> auth() {
+    public List<securityAdmins> auth() {
 
         return saRepo.findAll();
         // return saRepo.findByUsername("kschoi");

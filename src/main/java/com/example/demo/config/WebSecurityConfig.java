@@ -27,21 +27,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/assets/**", "/img/**").permitAll()
-				.antMatchers("/register").permitAll()
-				.antMatchers("/rest/*").permitAll()
 				.antMatchers("/.well-known/pki-validation/*").permitAll()
+				.antMatchers("/assets/**").permitAll()
+				.antMatchers("/img/**").permitAll()
+				.antMatchers("/*.css").permitAll()
+				.antMatchers("/register").permitAll()
+				.antMatchers("/testController/**").permitAll()
+				.antMatchers("/board/list").permitAll()
+				.antMatchers("/sample/list").permitAll()
+				.antMatchers("/login").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/") //login form 전송시 오는 곳 -> postmapping login 에 해당한다.
-                // .defaultSuccessUrl("/sessionIns")
-                .successHandler(new SuccessHandler())
-                .failureUrl("/?error")
+				.loginPage("/login") //login form 전송시 오는 곳 -> /login POST
+                .defaultSuccessUrl("/sample/list")
+                .failureUrl("/login?error")
 				.permitAll()
 				.and()
 			.logout()
-                .logoutSuccessUrl("/?logout")
+                .logoutSuccessUrl("/login?logout")
 				.permitAll()
                 .and()
             .csrf().disable();
@@ -53,16 +57,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.jdbcAuthentication()
         .dataSource(dataSource)
         .passwordEncoder(passwordEncoder())
-        .usersByUsernameQuery("select username,password,enabled "
-            + "from SecurityAdmins "
-            + "where username = ? ")
-        .authoritiesByUsernameQuery("select SA.username, SR.name "
-            + " from AdminsRole AR  "
-            + " inner join SecurityAdmins SA"
+        .usersByUsernameQuery("select userid, userpw, enabled "
+            + "from securityAdmins "
+            + "where userid = ? ")
+        .authoritiesByUsernameQuery("select SA.userid, SR.role "
+            + " from AdminRoles AR  "
+            + " inner join securityAdmins SA"
             + " ON AR.admins_id = SA.id "
-            + " inner join SecurityRole SR  "
-            + " ON AR.role_id = SR.id "
-            + " where SA.username = ?");
+            + " inner join securityRoles SR  "
+            + " ON AR.roles_id = SR.id "
+            + " where SA.userid = ? ");
     }
 
 

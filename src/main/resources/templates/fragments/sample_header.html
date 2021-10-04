@@ -53,9 +53,6 @@
 		</div>
 		<nav class="click-active">
 			<ul>
-				<li><a href="#" th:href="@{/auth/list}" th:classappend="${menu} == '권한' ? 'active' ">header: 권한 관리</a></li>
-				<li><a href="#" th:href="@{/board/list}" th:classappend="${menu} == '로그' ? 'active' ">header: 로그 관리</a></li>
-				<li><a href="#" th:href="@{/consult/list}" th:classappend="${menu} == '상담' ? 'active' ">header: 상담 관리</a></li>
 				<li><a href="#" th:href="@{/sample/list}" th:classappend="${menu} == '샘플' ? 'active' ">header: 샘플</a></li>
 			</ul>
 		</nav>
@@ -89,31 +86,6 @@
 			<img src="/CUG/img/human.png" class="img-circle" width="80" alt="">
 			<h5>Administrator</h5>
 		</div>
-		<!-- sidebar menu start -->
-		<ul th:if="${menu != '샘플'} " class="sidebar-menu" id="nav-accordion">
-			<li class="first">
-				<a href="/pages/BoardMgt/Notice/notice_List.shtml" th:href="@{/board/list}"
-					th:classappend="@{side} == '로그' ? 'active' ">
-					<i class="fa fa-fw fa-bullhorn"></i>
-					<span>leftmenu: 로그</span>
-				</a>
-			</li>
-			<li class="">
-				<a href="/pages/BoardMgt/Notice/notice_List.shtml" th:href="@{/auth/list}"
-					th:classappend="@{side} == '권한' ? 'active' ">
-					<i class="fa fa-fw fa-bullhorn"></i>
-					<span>leftmenu: 권한</span>
-				</a>
-			</li>
-			<li class="">
-				<a href="/pages/BoardMgt/Notice/notice_List.shtml" th:href="@{/consult/list}"
-					th:classappend="@{side} == '상담' ? 'active' ">
-					<i class="fa fa-fw fa-bullhorn"></i>
-					<span>leftmenu: 상담</span>
-				</a>
-			</li>
-		</ul>
-
 		<!-- 샘플 레프트 메뉴 -->
 		<ul th:if="${menu == '샘플'} " class="sidebar-menu" id="nav-accordion">
 			<li class="">
@@ -124,8 +96,6 @@
 				</a>
 			</li>
 		</ul>
-
-		
 
 		<!--// sidebar menu End -->
 		<br /><br />

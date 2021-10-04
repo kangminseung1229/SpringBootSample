@@ -34,17 +34,23 @@ public class BoardController {
 	private taxnet_logsVaildator tlValidator;
 
 	@GetMapping("/list")
-	public String list(HttpServletRequest request, Model model, @PageableDefault(size = 5) Pageable pageable,
+	public String list(HttpServletRequest request, Model model, @PageableDefault(size = 10) Pageable pageable,
 			@RequestParam(required = false, defaultValue = "") String searchText) {
 
 		Page<taxnet_logs> list = tlRepo.findByUseridContainingOrIpContainingOrderByIdDesc(searchText, searchText,
 				pageable);
 
-		int startPage = Math.max(1, list.getPageable().getPageNumber() - 4);
-		int endPage = Math.min(list.getTotalPages(), list.getPageable().getPageNumber() + 4);
+
+		//시작값, 둘 중 큰거
+		// 1  // 현재 번호 (0시작) 2번쨰 그룹은 10 시작 ,
+		// 10 - size(10) -1 = -1 수식이 틀림.
+		// (10 / 10 ) + 1 * 10 = 
+		// int startPage = Math.max(1, list.getPageable().getPageNumber() - pageable.getPageSize()-1);
+		int startPage = Math.max(1, (list.getPageable().getPageNumber() / pageable.getPageSize()) * pageable.getPageSize()+1 );
+		int endPage = Math.min(list.getTotalPages(), startPage + pageable.getPageSize() -1);
+
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
-
 		model.addAttribute("list", list);
 
 		return "board/list";

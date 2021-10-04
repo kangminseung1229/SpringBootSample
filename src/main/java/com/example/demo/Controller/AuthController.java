@@ -2,13 +2,14 @@ package com.example.demo.Controller;
 
 import java.util.List;
 
-import com.example.demo.DTO.SecurityAdmins;
-import com.example.demo.DTO.SecurityRole;
+import com.example.demo.DTO.securityAdmins;
+import com.example.demo.DTO.securityRoles;
 import com.example.demo.Repository.saRepository;
 import com.example.demo.Repository.srRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,9 @@ public class AuthController {
     @Autowired
     private srRepository srRepo;
 
+    @Autowired
+    private PasswordEncoder pwEncoder;
+
     
 
     @GetMapping("list")
@@ -34,7 +38,7 @@ public class AuthController {
         
         
         // Page<SecurityAdmins> list = saRepo.findAll();
-        List<SecurityAdmins> list = saRepo.findAll();
+        List<securityAdmins> list = saRepo.findAll();
         model.addAttribute("list", list);
 
         return "auth/authList";
@@ -46,16 +50,16 @@ public class AuthController {
 
 
 		if (id == null) {
-			model.addAttribute("SecurityAdmins", new SecurityAdmins());
+			model.addAttribute("SecurityAdmins", new securityAdmins());
 		} else {
-            SecurityAdmins sa = saRepo.findById(id).orElse(null);
+            securityAdmins sa = saRepo.findById(id).orElse(null);
             model.addAttribute("SecurityAdmins", sa);
             model.addAttribute("userAuth", saRepo.strAuth(id));
 		}
 
 
         //전체 권한 종류
-        List<SecurityRole> srAll = srRepo.findAll();
+        List<securityRoles> srAll = srRepo.findAll();
         model.addAttribute("AuthAll", srAll);
 
 
@@ -64,10 +68,14 @@ public class AuthController {
     }
     
     @PostMapping("/write")
-    public String write(Model model, SecurityAdmins sa, RedirectAttributes redirect){
+    public String write(Model model, securityAdmins sa, RedirectAttributes redirect){
         // adminService.save(sa);
+        String encodedpw = pwEncoder.encode(sa.getUserpw());
+        sa.setUserpw(encodedpw);
         saRepo.save(sa);
         redirect.addAttribute("id",sa.getId());
+
+
         return "redirect:write";
     }
 

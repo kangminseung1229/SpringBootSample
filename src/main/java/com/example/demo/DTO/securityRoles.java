@@ -14,7 +14,7 @@ import lombok.Data;
 
  @Data
  @Entity
-public class SecurityRole {
+public class securityRoles {
 
 
     @Id

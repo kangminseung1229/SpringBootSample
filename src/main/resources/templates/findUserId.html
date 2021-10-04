@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="fragments/sample_header :: head('로그인')">
+<head th:replace="fragments/common_inc_top :: head('로그인')">
 </head>
 
 <body>
@@ -12,12 +12,12 @@
 
         <div th:if="${param.error}">
             <span class="txt">
-            <u>아이디 / 패스워드 오류.</u>
+            <u>Invalid username and password.</u>
             </span>
         </div>
         <div th:if="${param.logout}">
             <span class="txt">
-            <u>로그아웃 되었습니다.</u>
+            <u>You have been logged out.</u>
             </span>
         </div>
 
@@ -26,23 +26,20 @@
 
 
             <div sec:authorize="isAnonymous()">
-                <h2>CLOSED USER GROUP Login</h2>
-                <form th:action="@{/login}" method="POST" >
+                <h2>CLOSED USER GROUP 비밀번호찾기</h2>
+                <form th:action="@{/}" method="POST" >
                     
                     <div class="content" style="margin-top: 20px;">
                         <div class="signin-cont cont">
-                            <input type="text" name="userid" id="adminid" required="required" class="form-control inpt"
+                            <input type="text" name="username" id="adminid" required="required" class="form-control inpt"
                             placeholder="아이디" />
                             <label for="id">아이디</label>
-                            <input type="password" name="userpw" id="adminpw" required="required" class="form-control inpt"
-                            placeholder="비밀번호" />
+                            <input type="password" name="AdminCode" id="AdminCode" required="required" class="form-control inpt"
+                            placeholder="관리자코드" />
                             <label for="password">비밀번호</label>
                             <div class="submit-wrap">
-                                <input type="submit" class="submit" title="로그인" / value="Sign in">
+                                <input type="submit" class="submit" title="" / value="비밀번호 찾기">
                                 <!-- <input type="submit" value="Sign in" class="submit" onclick="self.location.href('/CUG/pages/ContentsMgt/PeriodicPublication/hardTax_List.shtml');" title="로그인" /> -->
-
-                                <a th:href="@{/findUserid}">비밀번호 찾기</a>
-                                <a th:href="@{/register}">회원가입 하기</a>
                                 <span class="txt">
                                     <u>택스넷의 CUG 관리자에 부여된 <strong>로그인 ID 권한</strong>에 따라 메뉴를 사용할수 있습니다.</u><br />
                                     불편하시더라도 필히 메뉴별 이용시 로그인을 하여 주십시요!
@@ -76,3 +73,19 @@
 </body>
 
 </html>
+
+<script>
+    
+
+    function getAdminCode(param) {  
+        $.ajax({
+            type: "Post",
+            url: "url",
+            data: "data",
+            dataType: "dataType",
+            success: function (response) {
+                
+            }
+        });
+    }
+</script>

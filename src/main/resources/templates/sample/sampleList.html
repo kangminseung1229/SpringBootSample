@@ -3,19 +3,14 @@
 
 <html lang="ko">
 
-<head th:replace="fragments/common_inc_top :: head('로그관리')">
+<head th:replace="fragments/sample_header :: head('샘플')">
+  
 </head>
-
 <body>
+  <header th:replace="fragments/sample_header :: menu('샘플')"></header>
+  <aside id="sidebar" class="nav-collapse" th:replace="fragments/sample_header :: sidebar('샘플','리스트')"></aside>
 
-
-  <header th:replace="fragments/common_inc_top :: menu('로그')"></header>
-
-  <aside id="sidebar" class="nav-collapse" th:replace="fragments/common_inc_top :: sidebar('로그')"></aside>
-
-
-
-  <article id="container">
+  <article id="container"> 
     <section id="body-content">
       <form method="GET" th:action="@{/board/list }">
         <div class="content-panel no-padding Board-Search">
@@ -48,30 +43,23 @@
       <div class="content-panel no-padding">
         전체 건수
         <!-- 총: <span th:text="${cnt}" class="boardCnt"></span> 건 -->
-        <span class="count">총&nbsp;<strong class="clr-red2"
-            th:text="${list.TotalElements}">15</strong>&nbsp;건&nbsp;</span>
+        <span class="count">총&nbsp;<strong class="clr-red2" th:text="${list.TotalElements}">15</strong>&nbsp;건&nbsp;</span>
 
 
         <table class="table List table-bordered table-striped table-hover">
           <th>id</th>
-          <th>userid</th>
-          <th>ip</th>
-          <th>c_url</th>
-          <th>menu</th>
-          <th>logtime</th>
-          <th>search</th>
-
+          <th>title</th>
+          <th>memo</th>
+          <th>created</th>
+          <th>updated</th>
           <tr th:each="log : ${list}">
-
             <td th:text="${log.id}"> id</td>
-            <td><a th:text="${log.userid}" th:href="@{/board/write(id=${log.id})}">userid</a></td>
-            <td th:text="${log.ip}">ip</td>
-            <td th:text="${log.c_url}">c_url</td>
-            <td th:text="${log.menu}">menu</td>
-            <td th:text="${log.logtime}">logtime</td>
-            <td th:text="${log.search}">search</td>
+            <td><a th:text="${log.title}" th:href="@{/sample/write(id=${log.id})}">title</a></td>
+            <td th:text="${log.memo}">search</td>
+            <td th:text="${log.created}">search</td>
+            <td th:text="${log.updated}">search</td>
+          </tr> 
 
-          </tr>
         </table>
       </div>
 
@@ -81,26 +69,26 @@
           <!-- 이전 페이지  -->
           <li class="page-item " th:classappend="${startPage < list.pageable.pageSize} ? 'disabled'">
             <a class="page-link" 
-            th:href="@{/board/list(page=${startPage - list.pageable.pageSize-1}, searchText=${param.searchText})}"
+            th:href="@{/sample/list(page=${startPage - list.pageable.pageSize-1}, searchText=${param.searchText})}"
               tabindex="-1" aria-disabled="true">Previous</a>
           </li>
 
           <!-- 페이지 10개 -->
           <li class="page-item" th:classappend="${i == list.pageable.pageNumber+1} ? 'disabled'"
             th:each="i : ${#numbers.sequence(startPage, endPage)}"><a class="page-link"
-              th:href="@{/board/list(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
+              th:href="@{/sample/list(page=${i-1}, searchText=${param.searchText})}" th:text="${i}">1</a>
           </li>
 
 
           <!-- 다음 페이지 -->
           <li class="page-item "  th:classappend="${startPage + list.pageable.pageSize >  list.totalPages } ? 'disabled'">
-            <a class="page-link"  th:href="@{/board/list(page=${startPage + list.pageable.pageSize -1 }, searchText=${param.searchText})}">Next</a>
+            <a class="page-link"  th:href="@{/sample/list(page=${startPage + list.pageable.pageSize -1 }, searchText=${param.searchText})}">Next</a>
           </li>
 
           
         </ul>
         <div class="Right">
-          <a type="button" class="btn btn-success" th:href="@{/board/write}">쓰기</a>
+          <a type="button" class="btn btn-success" th:href="@{/sample/write}">쓰기</a>
         </div>
 
       </section>

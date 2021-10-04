@@ -4,7 +4,6 @@ import com.example.demo.DTO.admins;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 public interface adminRepository extends JpaRepository<admins, Long>{
 
@@ -14,5 +13,7 @@ public interface adminRepository extends JpaRepository<admins, Long>{
 
     
     admins findByCdAndPw(String cd, String pw);
-    
+
+    @Query("select userpw from securityAdmins where userid = :userid")
+    String getUserPw(String userid);
 }

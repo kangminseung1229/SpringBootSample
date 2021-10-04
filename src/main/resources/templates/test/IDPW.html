@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pw점검</title>
+</head>
+<body>
+
+
+    <input type="text" name="" id="pw" placeholder="비밀번호 입력" style="width: 90%; height: 30px;">
+
+    <button onclick="encoded();">검증</button>
+
+
+
+    <br/>
+
+    <h1>PW1 : </h1>
+    <input type="text" name="" id="result" placeholder="결과" style="width: 90%; height: 30px;">
+
+    <h1>PW2 : </h1>
+    <input type="text" name="" id="result2" placeholder="결과" style="width: 90%; height: 30px;" value="$2a$10$oWvmA.CQCl4O4lkmzOrX8eEVe3W3LxSZj6xjhKJfokiK2Lw.zVAtu">
+
+    <button onclick="compare();">compare</button>
+
+
+    <div  id="rediv"style="display:none;">
+        
+        <h1>result : </h1>
+        <h1>
+            <span id="database"></span>
+        </h1>
+    </div>
+
+
+    <!-- 로그인 테스트 -->
+    <div>
+        <input type="text" id="userid" >
+        <input type="password" id="userpw">
+        <button onclick="loginTest();">로그인 테스트</button>
+    </div>
+
+    <div>
+        <h1><span id="loginTestResult" style="display: none;"></span></h1>
+    </div>
+
+
+</body>
+</html>
+
+<script src="/assets/js/jquery-3.4.1.min.js" th:href="@{/assets/js/jquery-3.4.1.min.js}"></script>
+<script>
+    
+    function encoded() {
+        var pw = $("#pw").val();
+
+        $.ajax({
+            type: "post",
+            url: "/testController/getEncoded",
+            data: {pw: pw},
+            dataType: "text",
+            success: function (response) {
+                $("#result").val(response);
+            }
+        });
+      }
+
+      function compare() {
+
+            var pw = $("#pw").val();
+            var pw1 = $("#result").val();
+            var pw2 = $("#result2").val();
+
+          $.ajax({                                  
+              type: "post",
+              url: "/testController/compare",
+              data: {pw : pw, pw1 : pw1 , pw2: pw2},
+              dataType: "text",
+              success: function (response) {
+                  $("#rediv").hide();
+                  $("#database").text("");
+                  $("#rediv").fadeIn();
+                  $("#database").text(response);
+              }
+          });
+        }
+
+        function loginTest() {  
+            var userid = $("#userid").val();
+            var userpw = $("#userpw").val();
+
+
+            $.ajax({
+                type: "post",
+                url: "/testController/logintest",
+                data: {userid: userid , userpw: userpw},
+                dataType: "text",
+                success: function (response) {
+                    $("#loginTestResult").hide();
+                    $("#loginTestResult").text(response);
+                    $("#loginTestResult").show();
+
+                }
+            });
+        }
+</script>

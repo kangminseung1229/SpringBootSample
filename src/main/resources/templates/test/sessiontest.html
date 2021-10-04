@@ -7,9 +7,18 @@
     <title>sessiontest</title>
 </head>
 <body>
-    [sessionid]---> <span th:text="${session.value1}"></span> <br/>
-    [sec:name ] ----> <span class="text-white" sec:authentication="name">사용자</span> <br/>
-	[sec:name ] ----> <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span> <br/>
-	
+
+<!--     
+    [sessionid] <span th:text="${session.value1}"></span> <br/>
+    [sec:name ]  <span class="text-white" sec:authentication="name">사용자</span> <br/>
+	[sec:name ]  <span class="text-white mx-2" sec:authentication="principal.authorities">권한</span> <br/>
+	 -->
+
+     [pw]========> <span th:text="${pw}"></span> <br/>
+     [encodedpw]========> <span th:text="${encodedPW}"></span><br/>
+     [bollean] ===> <span th:text="${result}"></span>
+     
+
+
 </body>
 </html>

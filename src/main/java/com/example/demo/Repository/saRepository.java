@@ -2,19 +2,19 @@ package com.example.demo.Repository;
 
 import java.util.List;
 
-import com.example.demo.DTO.SecurityAdmins;
+import com.example.demo.DTO.securityAdmins;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface saRepository extends JpaRepository<SecurityAdmins, Long>{
+public interface saRepository extends JpaRepository<securityAdmins, Long>{
 
 
     // @Query("select count(*) from admins where cd = :cd and pw = :pw")
     // int findByCdAndPwNative(@Param("cd") String cd, @Param("pw") String pw);
-    List<SecurityAdmins> findByUsername(String username);
+    List<securityAdmins> findByUserid(String userid);
 
     @Modifying
     @Transactional
@@ -29,6 +29,10 @@ public interface saRepository extends JpaRepository<SecurityAdmins, Long>{
     //보유권한을 한 컬럼으로
     @Query(value = " SELECT GROUP_CONCAT('/', role_id,'/') AS strAuth FROM AdminsRole WHERE admins_id=:admins_id ;", nativeQuery = true)
     String strAuth(Long admins_id);
+
+    //관리자 승인코드
+    @Query(value = "SELECT code FROM adminCode where code = :code ;", nativeQuery = true)
+    String  getAdminCode(String code);
 
     
 }
